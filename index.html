@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<title>Example page</title>
+		<!-- Crypto libs -->
+		<script src="libs/jsbn.js"></script>
+		<script src="libs/rsa.js"></script>
+		<!-- Our Javascript  -->
+		<script src="pagarme.js"></script>
+
+		<script>
+			var creditCard = new PagarMeCreditCard();
+			creditCard.cardNumber = "4901720080344448";
+			creditCard.cardHolderName = "Test User";
+			creditCard.cardExpiracyDate = "1503";
+			creditCard.cardCVV = "678";
+			creditCard.generateHash();
+		</script>
+	</head>
+	<body>
+		Test page.
+	</body>
+</html>
