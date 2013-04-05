@@ -28,7 +28,7 @@ PagarMeCreditCard.prototype.generateHash = function() {
 	console.log(stringifiedParameters);
 
 	// Our public key
-	var publicKey = "-----BEGIN PUBLIC KEY-----\
+	var publicKeyString = "-----BEGIN PUBLIC KEY-----\
 		MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3+L/5UB2xen6FnMjpQo7\
 		ZOfoeYd4DFW7OtdQKqGRXdI4JYctZlbBbU5OoNH5clIZxUYi9sG15g8iieYxc77E\
 		ZLSJFx+H7NuzeOBBQuCT7liYFiCm7LH0iyqPnFYQOoYHvibB+zVEm9/H5+qE3i1i\
@@ -40,7 +40,7 @@ PagarMeCreditCard.prototype.generateHash = function() {
 
 	console.log(publicKey);
 
-	var key = RSA.getPublicKey(publicKey);
+	var publicKey = RSA.getPublicKey(publicKeyString);
 	var encryptedString = RSA.encrypt(stringifiedParameters, publicKey);
 
 	console.log(encryptedString);
