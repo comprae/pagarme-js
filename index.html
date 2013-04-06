@@ -5,29 +5,69 @@
 		<script src="pagarme.js"></script>
 
 		<script>
-			var creditCard = new PagarMeCreditCard();
-			creditCard.cardNumber = "4901720080344448";
-			creditCard.cardHolderName = "Test User";
-			creditCard.cardExpiracyMonth = "15";
-			creditCard.cardExpiracyYear = "15";
-			creditCard.cardCVV = "678";
-			creditCard.generateHash();
+			// var creditCard = new PagarMeCreditCard();
+			// creditCard.cardNumber = "4901720080344448";
+			// creditCard.cardHolderName = "Test User";
+			// creditCard.cardExpiracyMonth = "15";
+			// creditCard.cardExpiracyYear = "15";
+			// creditCard.cardCVV = "678";
+			// creditCard.generateHash();
 
-			console.log(creditCard.fieldErrors());
+			// console.log(creditCard.fieldErrors());
+
+			// setTimeout(function() {
+			// 	creditCard.fillFromFrom($("#payment_form"));
+			// }, 2000);
+
+			$(document).ready(function() {
+				$("#payment_form").submit(function(event) {
+					var creditCard = new PagarMeCreditCard();
+					creditCard.fillFromFrom($("#payment_form"));
+
+					var fieldErrors = creditCard.fieldErrors();
+
+					var hasErrors = false;
+					for(var field in fieldErrors) { hasErrors = true; break; }
+
+					if(hasErrors) {
+						var errorsList = "<h3>Errors</h3>";
+						var errorMessagesList = new Array();
+
+						for(var fieldName in fieldErrors) {
+							var errorMessage = fieldErrors[fieldName];
+							errorMessagesList.push("<li>" + errorMessage + "</li>");
+						}
+
+						errorsList += errorMessagesList.join("");
+
+						$("#field_errors").html(errorsList);
+
+						return false;
+					} else {
+						$("#field_errors").html("<br/>No errors!");
+					}
+
+					return false;
+				});
+			});
 		</script>
 	</head>
 	<body>
 		<form id="payment_form">
-			<input type="text" id="card_number"></input>
+			Card number: <input type="text" id="card_number" name="lol"/>
 			<br/>
-			<input type="text" id="card_holder_name"></input>
+			Card holder name: <input type="text" id="card_holder_name"/>
 			<br/>
-			<input type="text" id="card_expiracy_month"></input>
+			Card expiracy month: <input type="text" id="card_expiracy_month"/>
 			<br/>
-			<input type="text" id="card_expiracy_year"></input>
+			Card expiracy year: <input type="text" id="card_expiracy_year"/>
 			<br/>
-			<input type="text" id="card_cvv"></input>
+			Card security code: <input type="text" id="card_cvv"/>
 			<br/>
+			<div id="field_errors">
+			</div>
+			<br/>
+			<input type="submit"></input>
 		</form>
 	</body>
 </html>

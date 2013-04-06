@@ -1871,30 +1871,29 @@ function PagarMeCreditCard() {
 }
 
 PagarMeCreditCard.prototype.fieldErrors = function() {
-	var errors = new Array();
+	var errors = {};
 
-	if(this.cardNumber.length < 16 || this.cardNumber.length > 20 || !isValidCardNumber(this.cardNumber)) {
-		errors.push({
-			"card_number": "Invalid card number."
-		});
+	if(!this.cardNumber || this.cardNumber.length < 16 || this.cardNumber.length > 20 ||
+	!isValidCardNumber(this.cardNumber) || isNaN(this.cardNumber)) {
+		errors["card_number"] = "Invalid card number.";
 	}
 
-	if(this.cardHolderName.length <= 0) {
-		errors.push({
-			"card_holder_name": "Invalid card holder name."
-		});
+	if(!this.cardHolderName || this.cardHolderName.length <= 0 || !isNaN(this.cardHolderName)) {
+		errors["card_holder_name"] = "Invalid card holder name.";
 	}
 
-	if(parseInt(this.cardExpiracyMonth) <= 0 || parseInt(this.cardExpiracyMonth) > 12) {
-		errors.push({
-			"card_holder_name": "Invalid card expiracy month."
-		});
+	if(!this.cardExpiracyMonth || parseInt(this.cardExpiracyMonth) <= 0 || parseInt(this.cardExpiracyMonth) > 12 ||
+	isNaN(this.cardExpiracyMonth)) {
+		errors["card_expiracy_month"] = "Invalid card expiracy month.";
 	}
 
-	if(this.cardExpiracyYear.length != 2 && this.cardExpiracyYear.length != 4) {
-		errors.push({
-			"card_holder_name": "Invalid card expiracy year."
-		});
+	if(!this.cardExpiracyYear || this.cardExpiracyYear.length != 2 && this.cardExpiracyYear.length != 4 ||
+	isNaN(this.cardExpiracyYear)) {
+		errors["card_expiracy_year"] = "Invalid card expiracy year.";
+	}
+
+	if(!this.cardCVV || this.cardCVV.length < 3 || this.cardCVV.length > 4 || isNaN(this.cardCVV)) {
+		errors["card_cvv"] = "Invalid security code.";
 	}
 
 	return errors;
@@ -1927,4 +1926,13 @@ PagarMeCreditCard.prototype.generateHash = function() {
 }
 
 $(document).ready(function() {
+	PagarMeCreditCard.prototype.fillFromFrom = function(form) {
+		if(!form) return;
+
+		this.cardNumber = $(form.find("#card_number")[0]).val();
+		this.cardHolderName = $(form.find("#card_holder_name")[0]).val();
+		this.cardExpiracyMonth = $(form.find("#card_expiracy_month")[0]).val();
+		this.cardExpiracyYear = $(form.find("#card_expiracy_year")[0]).val();
+		this.cardCVV = $(form.find("#card_cvv")[0]).val();
+	}
 });
