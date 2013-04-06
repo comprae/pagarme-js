@@ -1824,22 +1824,87 @@ var RSA = {
     }
 }
 
+// ### End of rsa.js
+// ### Start of luhnValidation.js
 
-// #### Start of our library code ####
+var isValidCardNumber = function(cardNumber) {
+	var luhnDigit = parseInt(cardNumber.substring(cardNumber.length-1, cardNumber.length)); 
+	var luhnLess = cardNumber.substring(0, cardNumber.length-1);
+
+	var sum = 0;
+
+	for(i = 0; i < luhnLess.length; i++)
+	{
+		sum += parseInt(luhnLess.substring(i, i+1));
+	}
+
+	var delta = new Array (0,1,2,3,4,-4,-3,-2,-1,0);
+
+	for(i = luhnLess.length - 1; i >= 0; i -= 2)
+	{		
+		var deltaIndex = parseInt(luhnLess.substring(i, i+1));
+		var deltaValue = delta[deltaIndex];	
+		sum += deltaValue;
+	}
+
+	var mod10 = sum % 10;
+	mod10 = 10 - mod10;	
+
+	if(mod10 == 10)
+	{		
+		mod10=0;
+	}
+
+	return (mod10 == parseInt(luhnDigit));
+}
+
+// ### End of luhnValidation.js
+// ### Start of pagarme.js ####
 
 
 function PagarMeCreditCard() {
 	this.cardNumber = null;
 	this.cardHolderName = null;
-	this.cardExpiracyDate = null;
+	this.cardExpiracyMonth = null;
+	this.cardExpiracyYear = null;
 	this.cardCVV = null;
+}
+
+PagarMeCreditCard.prototype.fieldErrors = function() {
+	var errors = new Array();
+
+	if(this.cardNumber.length < 16 || this.cardNumber.length > 20 || !isValidCardNumber(this.cardNumber)) {
+		errors.push({
+			"card_number": "Invalid card number."
+		});
+	}
+
+	if(this.cardHolderName.length <= 0) {
+		errors.push({
+			"card_holder_name": "Invalid card holder name."
+		});
+	}
+
+	if(parseInt(this.cardExpiracyMonth) <= 0 || parseInt(this.cardExpiracyMonth) > 12) {
+		errors.push({
+			"card_holder_name": "Invalid card expiracy month."
+		});
+	}
+
+	if(this.cardExpiracyYear.length != 2 && this.cardExpiracyYear.length != 4) {
+		errors.push({
+			"card_holder_name": "Invalid card expiracy year."
+		});
+	}
+
+	return errors;
 }
 
 PagarMeCreditCard.prototype.stringifyParameters = function() {
 	var encryptionHash = {
 		'card_number': this.cardNumber,
 		'card_holder_name': this.cardHolderName,
-		'card_expiracy_date': this.cardExpiracyDate,
+		'card_expiracy_date': "" + this.cardExpiracyMonth + this.cardExpiracyYear,
 		'card_cvv': this.cardCVV,
 	}
 
@@ -1860,3 +1925,6 @@ PagarMeCreditCard.prototype.generateHash = function() {
 
 	console.log(encryptedString);
 }
+
+$(document).ready(function() {
+});

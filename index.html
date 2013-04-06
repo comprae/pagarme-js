@@ -1,19 +1,33 @@
 <html>
 	<head>
 		<title>Example page</title>
-		<!-- Our Javascript  -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="pagarme.js"></script>
 
 		<script>
 			var creditCard = new PagarMeCreditCard();
 			creditCard.cardNumber = "4901720080344448";
 			creditCard.cardHolderName = "Test User";
-			creditCard.cardExpiracyDate = "1503";
+			creditCard.cardExpiracyMonth = "15";
+			creditCard.cardExpiracyYear = "15";
 			creditCard.cardCVV = "678";
 			creditCard.generateHash();
+
+			console.log(creditCard.fieldErrors());
 		</script>
 	</head>
 	<body>
-		Test page.
+		<form id="payment_form">
+			<input type="text" id="card_number"></input>
+			<br/>
+			<input type="text" id="card_holder_name"></input>
+			<br/>
+			<input type="text" id="card_expiracy_month"></input>
+			<br/>
+			<input type="text" id="card_expiracy_year"></input>
+			<br/>
+			<input type="text" id="card_cvv"></input>
+			<br/>
+		</form>
 	</body>
 </html>
