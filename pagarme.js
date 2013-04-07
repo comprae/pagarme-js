@@ -1917,12 +1917,11 @@ PagarMeCreditCard.prototype.stringifyParameters = function() {
 
 PagarMeCreditCard.prototype.generateHash = function() {
 	var stringifiedParameters = this.stringifyParameters();
-	console.log(stringifiedParameters);
 
 	var publicKey = RSA.getPublicKey(pagarmePublicKeyString);
 	var encryptedString = RSA.encrypt(stringifiedParameters, publicKey);
 
-	console.log(encryptedString);
+	return encryptedString;
 }
 
 $(document).ready(function() {
