@@ -20,31 +20,30 @@
 			// }, 2000);
 
 			$(document).ready(function() {
-				$("#payment_form").submit(function(event) {
+				var form = $("#payment_form");
+
+				form.submit(function(event) {
 					var creditCard = new PagarMeCreditCard();
-					creditCard.fillFromFrom($("#payment_form"));
+					creditCard.fillFromFrom(form);
 
 					var fieldErrors = creditCard.fieldErrors();
 
 					var hasErrors = false;
 					for(var field in fieldErrors) { hasErrors = true; break; }
 
-					if(hasErrors) {
-						var errorsList = "<h3>Errors</h3>";
-						var errorMessagesList = new Array();
+					$("#payment_form #card_number").css('border', '3px solid green');
+					$("#payment_form #card_holder_name").css('border', '3px solid green');
+					$("#payment_form #card_expiracy_month").css('border', '3px solid green');
+					$("#payment_form #card_expiracy_year").css('border', '3px solid green');
+					$("#payment_form #card_cvv").css('border', '3px solid green');
 
+					if(hasErrors) {
 						for(var fieldName in fieldErrors) {
-							var errorMessage = fieldErrors[fieldName];
-							errorMessagesList.push("<li>" + errorMessage + "</li>");
+							var field = $(form.find("#" + fieldName)[0]);
+							field.css('border', '3px solid red');
 						}
 
-						errorsList += errorMessagesList.join("");
-
-						$("#field_errors").html(errorsList);
-
 						return false;
-					} else {
-						$("#field_errors").html("<br/>No errors!");
 					}
 
 					return false;
