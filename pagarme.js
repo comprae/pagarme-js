@@ -1,15 +1,3 @@
-var pagarmePublicKeyString = "-----BEGIN PUBLIC KEY-----\
-					   MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3+L/5UB2xen6FnMjpQo7\
-					   ZOfoeYd4DFW7OtdQKqGRXdI4JYctZlbBbU5OoNH5clIZxUYi9sG15g8iieYxc77E\
-					   ZLSJFx+H7NuzeOBBQuCT7liYFiCm7LH0iyqPnFYQOoYHvibB+zVEm9/H5+qE3i1i\
-					   ZBuvT/5v0o4iemVLNzIGJs360atEHHnKjfqhpobzXQ0+BdqYu2VWEsCzhFRDt+yp\
-					   O8ZBcI+Fd0+SZYjOw0tyE1NousG5TvnST1SApucb44bD2PEIQ1RzTNRzhc+NVoTu\
-					   LYvotLGCm/SxJUkX/0RIMw6VJq1gXAGUdKE/W1ScFkGBbtyoqWvtlvvg9gQdmFLC\
-					   XwIDAQAB\
-					   -----END PUBLIC KEY-----";
-// Our public key goes on top of the file to be easier to dynamically 
-// update it from Chimera using the public key saved in its filesystem.
-
 // #### Start of jsbn.js ####
 
 
@@ -1787,11 +1775,14 @@ var RSA = {
         if($pem.length<50) return false;
         if($pem.substr(0,26)!="-----BEGIN PUBLIC KEY-----") return false;
         $pem = $pem.substr(26);
+        $pem = $pem.replace(/\n/g,"");
         if($pem.substr($pem.length-24)!="-----END PUBLIC KEY-----") return false;
         $pem = $pem.substr(0,$pem.length-24);
         $pem = new ASN1Data(Base64.decode($pem));
         if($pem.error) return false;
         $pem = $pem.data;
+		console.log("will return");
+
         if($pem[0][0][0]=="1.2.840.113549.1.1.1")
             return new RSAPublicKey($pem[0][1][0][0], $pem[0][1][0][1]);
         return false;
@@ -1861,16 +1852,18 @@ var isValidCardNumber = function(cardNumber) {
 // ### End of luhnValidation.js
 // ### Start of pagarme.js ####
 
-
-function PagarMeCreditCard() {
-	this.cardNumber = null;
-	this.cardHolderName = null;
-	this.cardExpiracyMonth = null;
-	this.cardExpiracyYear = null;
-	this.cardCVV = null;
+this.PagarMe = {
+	encryptionKey: null,
+	creditCard: function PagarMeCreditCard() {
+		this.cardNumber = null;
+		this.cardHolderName = null;
+		this.cardExpiracyMonth = null;
+		this.cardExpiracyYear = null;
+		this.cardCVV = null;
+	}
 }
 
-PagarMeCreditCard.prototype.fieldErrors = function() {
+PagarMe.creditCard.prototype.fieldErrors = function() {
 	var errors = {};
 
 	if(!this.cardNumber || this.cardNumber.length < 16 || this.cardNumber.length > 20 ||
@@ -1899,7 +1892,7 @@ PagarMeCreditCard.prototype.fieldErrors = function() {
 	return errors;
 }
 
-PagarMeCreditCard.prototype.stringifyParameters = function() {
+PagarMe.creditCard.prototype.stringifyParameters = function() {
 	var encryptionHash = {
 		'card_number': this.cardNumber,
 		'card_holder_name': this.cardHolderName,
@@ -1915,17 +1908,23 @@ PagarMeCreditCard.prototype.stringifyParameters = function() {
 	return parametersArray.join("&");
 }
 
-PagarMeCreditCard.prototype.generateHash = function() {
+PagarMe.creditCard.prototype.generateHash = function(callback) {
 	var stringifiedParameters = this.stringifyParameters();
 
-	var publicKey = RSA.getPublicKey(pagarmePublicKeyString);
-	var encryptedString = RSA.encrypt(stringifiedParameters, publicKey);
+	console.log(PagarMe.encryption_key);
 
-	return encryptedString;
+	$.get('https://0.0.0.0:3001/1/transactions/card_hash?encryption_key=9741a03ea3a4f15f6fa8d9fe9d2c47c8', function(data) {
+		var cardHashPublicKey = RSA.getPublicKey(data['public_key']);
+		var encryptedString = data.id + "_" + RSA.encrypt(stringifiedParameters, cardHashPublicKey);
+
+		callback(encryptedString);
+	});
+
+	// return encryptedString;
 }
 
 $(document).ready(function() {
-	PagarMeCreditCard.prototype.fillFromFrom = function(form) {
+	PagarMe.creditCard.prototype.fillFromFrom = function(form) {
 		if(!form) return;
 
 		this.cardNumber = $(form.find("#card_number")[0]).val();
