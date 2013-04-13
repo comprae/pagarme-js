@@ -1781,8 +1781,6 @@ var RSA = {
         $pem = new ASN1Data(Base64.decode($pem));
         if($pem.error) return false;
         $pem = $pem.data;
-		console.log("will return");
-
         if($pem[0][0][0]=="1.2.840.113549.1.1.1")
             return new RSAPublicKey($pem[0][1][0][0], $pem[0][1][0][1]);
         return false;
