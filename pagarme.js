@@ -1911,9 +1911,7 @@ PagarMe.creditCard.prototype.stringifyParameters = function() {
 PagarMe.creditCard.prototype.generateHash = function(callback) {
 	var stringifiedParameters = this.stringifyParameters();
 
-	console.log(PagarMe.encryption_key);
-
-	$.get('https://0.0.0.0:3001/1/transactions/card_hash?encryption_key=9741a03ea3a4f15f6fa8d9fe9d2c47c8', function(data) {
+	$.get('https://0.0.0.0:3001/1/transactions/card_hash?encryption_key=' + PagarMe.encryption_key, function(data) {
 		var cardHashPublicKey = RSA.getPublicKey(data['public_key']);
 		var encryptedString = data.id + "_" + RSA.encrypt(stringifiedParameters, cardHashPublicKey);
 
