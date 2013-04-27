@@ -37,6 +37,7 @@
 					creditCard.generateHash(function(cardHash) {
 						console.log("GOT CARD HASH");
 						form.append($('<input type="hidden" name="card_hash"/>').val(cardHash));
+						PagarMe.removeCardFieldsFromForm(form);
 						form.get(0).submit();
 					});
 

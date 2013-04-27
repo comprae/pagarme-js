@@ -1929,4 +1929,12 @@ $(document).ready(function() {
 		this.cardExpiracyYear = $(form.find("#card_expiracy_year")[0]).val();
 		this.cardCVV = $(form.find("#card_cvv")[0]).val();
 	}
+
+	PagarMe.removeCardFieldsFromForm = function(form) {
+		$(form.find("#card_number")[0]).remove();
+		$(form.find("#card_holder_name")[0]).remove();
+		$(form.find("#card_expiracy_month")[0]).remove();
+		$(form.find("#card_expiracy_year")[0]).remove();
+		$(form.find("#card_cvv")[0]).remove();
+	}
 });
