@@ -1862,11 +1862,7 @@ this.PagarMe = {
 }
 
 PagarMe.creditCard.prototype.fieldErrors = function() {
-	[fieldErrors setObject:@"Número do cartão inválido." forKey:@"card_number"];
-	[fieldErrors setObject:@"Nome do portador inválido." forKey:@"card_holder_name"];
-	[fieldErrors setObject:@"Mês de expiração inválido" forKey:@"card_expiracy_month"];
-	[fieldErrors setObject:@"Ano de expiração inválido" forKey:@"card_expiracy_year"];
-	[fieldErrors setObject:@"Código de segurança inválido." forKey:@"card_cvv"];
+	var errors = {};
 
 	if(!this.cardNumber || this.cardNumber.length < 16 || this.cardNumber.length > 20 ||
 	!isValidCardNumber(this.cardNumber) || isNaN(this.cardNumber)) {
