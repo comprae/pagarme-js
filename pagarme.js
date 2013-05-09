@@ -1862,29 +1862,33 @@ this.PagarMe = {
 }
 
 PagarMe.creditCard.prototype.fieldErrors = function() {
-	var errors = {};
+	[fieldErrors setObject:@"Número do cartão inválido." forKey:@"card_number"];
+	[fieldErrors setObject:@"Nome do portador inválido." forKey:@"card_holder_name"];
+	[fieldErrors setObject:@"Mês de expiração inválido" forKey:@"card_expiracy_month"];
+	[fieldErrors setObject:@"Ano de expiração inválido" forKey:@"card_expiracy_year"];
+	[fieldErrors setObject:@"Código de segurança inválido." forKey:@"card_cvv"];
 
 	if(!this.cardNumber || this.cardNumber.length < 16 || this.cardNumber.length > 20 ||
 	!isValidCardNumber(this.cardNumber) || isNaN(this.cardNumber)) {
-		errors["card_number"] = "Invalid card number.";
+		errors["card_number"] = "Número do cartão inválido.";
 	}
 
 	if(!this.cardHolderName || this.cardHolderName.length <= 0 || !isNaN(this.cardHolderName)) {
-		errors["card_holder_name"] = "Invalid card holder name.";
+		errors["card_holder_name"] = "Nome do portador inválido.";
 	}
 
 	if(!this.cardExpiracyMonth || parseInt(this.cardExpiracyMonth) <= 0 || parseInt(this.cardExpiracyMonth) > 12 ||
 	isNaN(this.cardExpiracyMonth)) {
-		errors["card_expiracy_month"] = "Invalid card expiracy month.";
+		errors["card_expiracy_month"] = "Mês de expiração inválido.";
 	}
 
 	if(!this.cardExpiracyYear || this.cardExpiracyYear.length != 2 && this.cardExpiracyYear.length != 4 ||
 	isNaN(this.cardExpiracyYear)) {
-		errors["card_expiracy_year"] = "Invalid card expiracy year.";
+		errors["card_expiracy_year"] = "Ano de expiração inválido.";
 	}
 
 	if(!this.cardCVV || this.cardCVV.length < 3 || this.cardCVV.length > 4 || isNaN(this.cardCVV)) {
-		errors["card_cvv"] = "Invalid security code.";
+		errors["card_cvv"] = "Código de segurança inválido.";
 	}
 
 	return errors;
