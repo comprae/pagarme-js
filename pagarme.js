@@ -1909,7 +1909,7 @@ PagarMe.creditCard.prototype.stringifyParameters = function() {
 PagarMe.creditCard.prototype.generateHash = function(callback) {
 	var stringifiedParameters = this.stringifyParameters();
 
-	$.get('https://0.0.0.0:3001/1/transactions/card_hash_key?encryption_key=' + PagarMe.encryption_key, function(data) {
+	$.get('https://api.pagar.me/1/transactions/card_hash_key?encryption_key=' + PagarMe.encryption_key, function(data) {
 		var cardHashPublicKey = RSA.getPublicKey(data['public_key']);
 		var encryptedString = data.id + "_" + RSA.encrypt(stringifiedParameters, cardHashPublicKey);
 
