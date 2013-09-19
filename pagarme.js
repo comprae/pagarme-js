@@ -1852,13 +1852,30 @@ var isValidCardNumber = function(cardNumber) {
 
 this.PagarMe = {
 	encryptionKey: null,
+	sessionId: null,
 	creditCard: function PagarMeCreditCard() {
 		this.cardNumber = null;
 		this.cardHolderName = null;
 		this.cardExpiracyMonth = null;
 		this.cardExpiracyYear = null;
 		this.cardCVV = null;
+	},
+}
+
+PagarMe.enableAntifraudProfiling = function() {
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var randomKey = "";
+    for(var i = 0; i < 128; i++) {
+        randomKey += possible.charAt(Math.floor(Math.random() * possible.length));
 	}
+
+    PagarMe.sessionId = randomKey;
+
+	var head= document.getElementsByTagName('head')[0];
+	var script = document.createElement('script');
+	script.type = 'text/javascript';
+	script.src = 'https://h.online-metrix.net/fp/check.js?org_id=k6dvnkdk&session_id=' + PagarMe.sessionId;
+	head.appendChild(script);
 }
 
 PagarMe.creditCard.prototype.fieldErrors = function() {
@@ -1895,7 +1912,11 @@ PagarMe.creditCard.prototype.stringifyParameters = function() {
 		'card_number': this.cardNumber,
 		'card_holder_name': this.cardHolderName,
 		'card_expiracy_date': "" + this.cardExpiracyMonth + this.cardExpiracyYear,
-		'card_cvv': this.cardCVV,
+		'card_cvv': this.cardCVV
+	}
+
+	if(PagarMe.sessionId) {
+		encryptionHash['session_id'] = PagarMe.sessionId;
 	}
 
 	var parametersArray = new Array();
@@ -1909,7 +1930,7 @@ PagarMe.creditCard.prototype.stringifyParameters = function() {
 PagarMe.creditCard.prototype.generateHash = function(callback) {
 	var stringifiedParameters = this.stringifyParameters();
 
-	$.get('https://api.pagar.me/1/transactions/card_hash_key?encryption_key=' + PagarMe.encryption_key, function(data) {
+	$.get('http://0.0.0.0:3001/transactions/card_hash_key?encryption_key=' + PagarMe.encryption_key, function(data) {
 		var cardHashPublicKey = RSA.getPublicKey(data['public_key']);
 		var encryptedString = data.id + "_" + RSA.encrypt(stringifiedParameters, cardHashPublicKey);
 

@@ -6,7 +6,9 @@
 
 		<script>
 			$(document).ready(function() {
-				PagarMe.encryption_key = "9741a03ea3a4f15f6fa8d9fe9d2c47c8";
+				PagarMe.encryption_key = "exSwiDgaRZrieSoHal690i3tkVZcgI";
+				// Caso você deseje habilitar o antifraude para essa transação:
+				PagarMe.enableAntifraudProfiling();
 
 				var form = $("#payment_form");
 
@@ -35,7 +37,7 @@
 					}
 
 					creditCard.generateHash(function(cardHash) {
-						console.log("GOT CARD HASH");
+						console.log(cardHash);
 						form.append($('<input type="hidden" name="card_hash"/>').val(cardHash));
 						PagarMe.removeCardFieldsFromForm(form);
 						form.get(0).submit();
