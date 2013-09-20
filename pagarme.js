@@ -1871,11 +1871,14 @@ PagarMe.enableAntifraudProfiling = function() {
 
     PagarMe.sessionId = randomKey;
 
-	var head= document.getElementsByTagName('head')[0];
-	var script = document.createElement('script');
-	script.type = 'text/javascript';
-	script.src = 'https://h.online-metrix.net/fp/check.js?org_id=k6dvnkdk&session_id=' + PagarMe.sessionId;
-	head.appendChild(script);
+	var profilingTags = "<p style=\"background:url(https://h.online-metrix.net/fp/clear.png?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "&m=1)\"> </p>\
+	<img src=\"https://h.online-metrix.net/fp/clear.png?org_id=k6dvnkdk&amp;session_id=" + PagarMe.sessionId + "&m=2\" alt=\"\" >\
+	<script src=\"https://h.online-metrix.net/fp/check.js?org_id=k6dvnkdk&amp;session_id=" + PagarMe.sessionId + "\" type=\"text/javascript\">\
+	</script>\
+	<object type=\"application/x-shockwave-flash\" data=\"https://h.online- metrix.net/fp/fp.swf?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "\" width=\"1\" height=\"1\" id=\"obj_id\">\
+	<param name=\"movie\" value=\"https://h.online-metrix.net/fp/fp.swf?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "\" /> </object>";
+
+	document.getElementsByTagName('head')[0].innerHTML += profilingTags;
 }
 
 PagarMe.creditCard.prototype.fieldErrors = function() {
@@ -1936,8 +1939,6 @@ PagarMe.creditCard.prototype.generateHash = function(callback) {
 
 		callback(encryptedString);
 	});
-
-	// return encryptedString;
 }
 
 $(document).ready(function() {
