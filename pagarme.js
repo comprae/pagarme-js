@@ -1878,7 +1878,7 @@ PagarMe.enableAntifraudProfiling = function() {
 	<object type=\"application/x-shockwave-flash\" data=\"https://h.online-metrix.net/fp/fp.swf?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "\" width=\"1\" height=\"1\" id=\"obj_id\">\
 	<param name=\"movie\" value=\"https://h.online-metrix.net/fp/fp.swf?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "\" /> </object>";
 
-	document.getElementsByTagName('head')[0].innerHTML += profilingTags;
+	document.getElementsByTagName('body')[0].innerHTML += profilingTags;
 }
 
 PagarMe.creditCard.prototype.fieldErrors = function() {
