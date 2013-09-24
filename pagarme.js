@@ -1872,8 +1872,8 @@ PagarMe.enableAntifraudProfiling = function() {
     PagarMe.sessionId = randomKey;
 
 	var profilingTags = "<p style=\"background:url(https://api.pagar.me/1/profiling/fp/clear.png?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "&m=1)\"> </p>\
-	<img src=\"https://api.pagar.me/1/profiling/fp/clear.png?org_id=k6dvnkdk&amp;session_id=" + PagarMe.sessionId + "&m=2\" alt=\"\" >\
-	<script src=\"https://api.pagar.me/1/profiling/fp/check.js?org_id=k6dvnkdk&amp;session_id=" + PagarMe.sessionId + "\" type=\"text/javascript\">\
+	<img src=\"https://api.pagar.me/1/profiling/fp/clear.png?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "&m=2\" alt=\"\" >\
+	<script src=\"https://api.pagar.me/1/profiling/fp/check.js?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "\" type=\"text/javascript\">\
 	</script>\
 	<object type=\"application/x-shockwave-flash\" data=\"https://api.pagar.me/1/profiling/fp/fp.swf?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "\" width=\"1\" height=\"1\" id=\"obj_id\">\
 	<param name=\"movie\" value=\"https://api.pagar.me/1/profiling/fp/fp.swf?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "\" /> </object>";
