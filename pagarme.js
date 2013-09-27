@@ -1862,25 +1862,6 @@ this.PagarMe = {
 	},
 }
 
-PagarMe.enableAntifraudProfiling = function() {
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var randomKey = "";
-    for(var i = 0; i < 128; i++) {
-        randomKey += possible.charAt(Math.floor(Math.random() * possible.length));
-	}
-
-    PagarMe.sessionId = randomKey;
-
-	var profilingTags = "<p style=\"background:url(https://api.pagar.me/1/profiling/fp/clear.png?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "&m=1)\"> </p>\
-	<img src=\"https://api.pagar.me/1/profiling/fp/clear.png?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "&m=2\" alt=\"\" >\
-	<script src=\"https://api.pagar.me/1/profiling/fp/check.js?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "\" type=\"text/javascript\">\
-	</script>\
-	<object type=\"application/x-shockwave-flash\" data=\"https://api.pagar.me/1/profiling/fp/fp.swf?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "\" width=\"1\" height=\"1\" id=\"obj_id\">\
-	<param name=\"movie\" value=\"https://api.pagar.me/1/profiling/fp/fp.swf?org_id=k6dvnkdk&session_id=" + PagarMe.sessionId + "\" /> </object>";
-
-	document.getElementsByTagName('body')[0].innerHTML += profilingTags;
-}
-
 PagarMe.creditCard.prototype.fieldErrors = function() {
 	var errors = {};
 
