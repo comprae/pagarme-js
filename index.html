@@ -47,52 +47,7 @@
 		</script>
 	</head>
 	<body>
-	<p style="background:url(https://api.pagar.me/1/profiling/fp/clear.png?org_id=k6dvnkdk&session_id=123123&m=1)"> </p>
-	<img src="https://api.pagar.me/1/profiling/fp/clear.png?org_id=k6dvnkdk&session_id=123123&m=2" alt="" >
-	<script src="https://api.pagar.me/1/profiling/fp/check.js?org_id=k6dvnkdk&session_id=123123" type="text/javascript">
-	</script>
-	<object type="application/x-shockwave-flash" data="https://api.pagar.me/1/profiling/fp/fp.swf?org_id=k6dvnkdk&session_id=123123" width="1" height="1" id="obj_id">
-	<param name="movie" value="https://api.pagar.me/1/profiling/fp/fp.swf?org_id=k6dvnkdk&session_id=123123" /> </object>
-
-		<form id="payment_form" action="https://api.pagar.me/1/transactions" method="POST">
-			<input type="hidden" name="api_key" value="ak_test_KGXIjQ4GicOa2BLGZrDRTR5qNQxDWo"/>
-			Valor: R$10,00 <input type="hidden" name="amount" value="1000"/>
-			<br/>
-			Nome: <input type="text" name="customer[name]" value="Pedro Franceschi"/>
-			<br/>
-			CPF: <input type="text" name="customer[document_number]" value="12388151708"/>
-			<input type="hidden" name="customer[document_type]" value="cpf"/>
-			<br/>
-			Email: <input type="text" name="customer[email]" value="pedro@pagar.me"/>
-			<br/>
-			Logradouro: <input type="text" name="customer[address][street]" value="Av. Brigadeiro Faria Lima"/>
-			<br/>
-			Complemento: <input type="text" name="customer[address][street_2]" value="8 andar"/>
-			<br/>
-			Número: <input type="text" name="customer[address][street_number]" value="2941"/>
-			<br/>
-			Cidade: <input type="text" name="customer[address][city]" value="Sao Paulo"/>
-			<br/>
-			Estado: <input type="text" name="customer[address][state]" value="SP"/>
-			<br/>
-			Bairro: <input type="text" name="customer[address][neighborhood]" value="Itaim Bibi"/>
-			<br/>
-			CEP: <input type="text" name="customer[address][zipcode]" value="01452000"/>
-			<br/>
-			País: <input type="text" name="customer[address][country]" value="Brasil"/>
-			<br/>
-			<input type="hidden" name="customer[phone][type]" value="cellphone"/>
-			Número de telefone: <input type="text" name="customer[phone][number]" value="87360795"/>
-			<br/>
-			DDD: <input type="text" name="customer[phone][ddd]" value="21"/>
-			<br/>
-			Sexo: <input type="text" name="customer[sex]" value="M"/>
-			<br/>
-			Data de nascimento: <input type="text" name="customer[born_at]" value="07-19-1993"/>
-			<br/>
-			<br/>
-			Dados do cartão:
-			<br/>
+		<form id="payment_form" action="http://0.0.0.0:3001/" method="GET">
 			Card number: <input type="text" id="card_number"/>
 			<br/>
 			Card holder name: <input type="text" id="card_holder_name"/>
