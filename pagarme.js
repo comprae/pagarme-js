@@ -1912,6 +1912,11 @@ PagarMe.creditCard.prototype.stringifyParameters = function() {
 }
 
 PagarMe.creditCard.prototype.generateHash = function(callback) {
+	if(PagarMe.encryption_key.substring(0, 2) == "ak") {
+		alert("Erro: Você está usando a api_key ao invés da encryption_key. Por favor, verifique se a chave inserida é a encryption_key disponível em seu dashboard. Para mais informações, visite: https://pagar.me/docs/restful-api/card-hash/")
+		return;
+	}
+
 	var stringifiedParameters = this.stringifyParameters();
 
 	$.get('https://api.pagar.me/1/transactions/card_hash_key?encryption_key=' + PagarMe.encryption_key, function(data) {
